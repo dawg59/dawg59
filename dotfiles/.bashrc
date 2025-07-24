@@ -12,7 +12,7 @@
 
 ### PROMPT ###
 # This is commented out if using prompt
-PS1='\[\e[34m\]\u\W\$\[\e[0m\] '
+PS1="\[\e[31m\]\s\[\e[m\]\[\e[31m\]\V\[\e[m\]\[\e[36m\]\u\[\e[m\]\[\e[34m\]\w\[\e[m\]\[\e[37m\]\\$\[\e[m\] "
 
 # --- History Control ---
 export HISTSIZE=500
@@ -51,6 +51,8 @@ if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
 
+shopt -s autocd  # Enables automatic directory change when typing a directory name
+
 #================================================================ #
 #
 #  ALIASES AND FUNCTIONS
@@ -73,7 +75,7 @@ alias egrep='egrep --color=auto'
 alias hlp='less ~/.bashrc_help' # help bashrc
 alias h='history' # history
 alias cls='clear' # clear terminal
-alias q='exit' # quit
+alias bye='exit' # quit
 alias src='source ~/.bashrc' #  restart bash
 
 # Alias's for multiple directory listing commands
