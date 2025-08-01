@@ -66,6 +66,7 @@ alias egrep='egrep --color=auto'
 alias hlp='less ~/.bashrc_help' # help bashrc
 alias h='history' # history
 alias cls='clear' # clear terminal
+alias blk='lsblk' # lsblk
 alias bye='exit' # quit
 alias src='source ~/.bashrc' #  restart bash
 
