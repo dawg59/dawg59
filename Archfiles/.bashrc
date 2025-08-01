@@ -1,4 +1,10 @@
-# ===============================================================#
+#================================================================#
+#           ██████╗  █████╗ ███████╗██╗  ██╗██████╗  ██████╗
+#           ██╔══██╗██╔══██╗██╔════╝██║  ██║██╔══██╗██╔════╝
+#           ██████╔╝███████║███████╗███████║██████╔╝██║     
+#           ██╔══██╗██╔══██║╚════██║██╔══██║██╔══██╗██║     
+#           ██████╔╝██║  ██║███████║██║  ██║██║  ██║╚██████╗
+#           ╚═════╝ ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝
 # Last modified: 7/17/2025 
 # PERSONAL $HOME/.bashrc FILE for bash-5.3 (or later)
 # My 1St bash config. Just some standard stuff.
@@ -18,50 +24,35 @@ PS1="\[\e[31m\]\s\[\e[m\]\[\e[31m\]\V\[\e[m\]\[\e[36m\]\u\[\e[m\]\[\e[34m\]\w\[\
 export HISTSIZE=500
 export HISTFILESIZE=1000
 
-# Extracts any archive(s) (if unp isn't installed)
-extract () {
-	for archive in $*; do
-		if [ -f $archive ] ; then
-			case $archive in
-				*.tar.bz2)   tar xvjf $archive    ;;
-				*.tar.gz)    tar xvzf $archive    ;;
-				*.bz2)       bunzip2 $archive     ;;
-				*.rar)       rar x $archive       ;;
-				*.gz)        gunzip $archive      ;;
-				*.tar)       tar xvf $archive     ;;
-				*.tbz2)      tar xvjf $archive    ;;
-				*.tgz)       tar xvzf $archive    ;;
-				*.zip)       unzip $archive       ;;
-				*.Z)         uncompress $archive  ;;
-				*.7z)        7z x $archive        ;;
-				*)           echo "don't know how to extract '$archive'..." ;;
-			esac
-		else
-			echo "'$archive' is not a valid file!"
-		fi
-	done
+# Sudo last command
+s() { # do sudo, or sudo the last command if no argument given
+    if [[ $# == 0 ]]; then
+        sudo $(history -p '!!')
+    else
+        sudo "$@"
+    fi
 }
 
+# Nice ls colors
+test -r ~/.dir_colors && eval $(dircolors ~/.dir_colors)
+
+# Automatic directory change
+shopt -s autocd  # Enables automatic directory change when typing a directory name
+
+#================================================================ #
+#  ALIASES AND FUNCTIONS
+#  Arguably, some functions defined here are quite big.
+#  If you want to make this file smaller, these functions can
+#  be converted into scripts and removed from here.
 # Alias definitions.
 # You may want to put all your additions into a separate file like
 # ~/.bash_aliases, instead of adding them here directly.
 # See /usr/share/doc/bash-doc/examples in the bash-doc package.
+#================================================================ #
 
 if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
-
-shopt -s autocd  # Enables automatic directory change when typing a directory name
-
-#================================================================ #
-#
-#  ALIASES AND FUNCTIONS
-#
-#  Arguably, some functions defined here are quite big.
-#  If you want to make this file smaller, these functions can
-#  be converted into scripts and removed from here.
-#
-#================================================================ #
 
 # alias ls='ls --color=auto'
 alias grep='grep --color=auto'
@@ -110,6 +101,51 @@ alias untar='tar -xvf'
 alias unbz2='tar -xvjf'
 alias ungz='tar -xvzf'
 
+# Extracts any archive(s) (if unp isn't installed)
+function extract {
+ if [ $# -eq 0 ]; then
+    # display usage if no parameters given
+    echo "Usage: extract <path/file_name>.<zip|rar|bz2|gz|tar|tbz2|tgz|Z|7z|xz|ex|tar.bz2|tar.gz|tar.xz|.zlib|.cso|.zst>"
+    echo "       extract <path/file_name_1.ext> [path/file_name_2.ext] [path/file_name_3.ext]"
+ fi
+    for n in "$@"; do
+        if [ ! -f "$n" ]; then
+            echo "'$n' - file doesn't exist"
+            return 1
+        fi
+
+        case "${n%,}" in
+          *.cbt|*.tar.bz2|*.tar.gz|*.tar.xz|*.tbz2|*.tgz|*.txz|*.tar)
+                       tar zxvf "$n"       ;;
+          *.lzma)      unlzma ./"$n"      ;;
+          *.bz2)       bunzip2 ./"$n"     ;;
+          *.cbr|*.rar) unrar x -ad ./"$n" ;;
+          *.gz)        gunzip ./"$n"      ;;
+          *.cbz|*.epub|*.zip) unzip ./"$n"   ;;
+          *.z)         uncompress ./"$n"  ;;
+          *.7z|*.apk|*.arj|*.cab|*.cb7|*.chm|*.deb|*.iso|*.lzh|*.msi|*.pkg|*.rpm|*.udf|*.wim|*.xar|*.vhd)
+                       7z x ./"$n"        ;;
+          *.xz)        unxz ./"$n"        ;;
+          *.exe)       cabextract ./"$n"  ;;
+          *.cpio)      cpio -id < ./"$n"  ;;
+          *.cba|*.ace) unace x ./"$n"     ;;
+          *.zpaq)      zpaq x ./"$n"      ;;
+          *.arc)       arc e ./"$n"       ;;
+          *.cso)       ciso 0 ./"$n" ./"$n.iso" && \
+                            extract "$n.iso" && \rm -f "$n" ;;
+          *.zlib)      zlib-flate -uncompress < ./"$n" > ./"$n.tmp" && \
+                            mv ./"$n.tmp" ./"${n%.*zlib}" && rm -f "$n"   ;;
+          *.dmg)
+                      hdiutil mount ./"$n" -mountpoint "./$n.mounted" ;;
+          *.tar.zst)  tar -I zstd -xvf ./"$n"  ;;
+          *.zst)      zstd -d ./"$n"  ;;
+          *)
+                      echo "extract: '$n' - unknown archive method"
+                      return 1
+                      ;;
+        esac
+    done
+}
 # =============================================================== #
 # Local Variables:
 # sh-shell:bash
