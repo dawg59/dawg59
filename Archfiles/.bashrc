@@ -8,7 +8,7 @@
 # Last modified: 7/17/2025 
 # PERSONAL $HOME/.bashrc FILE for bash-5.3 (or later)
 # My 1St bash config. Just some standard stuff.
-# This file was designed for my Arch/CachyOS computers.
+# This file was designed for my computers.
 # My bashrc file is a bit overcrowded - remember it is just an example. 
 # This file is normally read by interactive shells only.
 # If not running interactively, don't do anything
@@ -19,6 +19,7 @@
 ### PROMPT ###
 # This is commented out if using prompt
 PS1="\[\e[31m\]\s\[\e[m\]\[\e[31m\]\V\[\e[m\]\[\e[36m\]\u\[\e[m\]\[\e[34m\]\w\[\e[m\]\[\e[37m\]\\$\[\e[m\] "
+# PS1="\[\e[31m\]\s\[\e[m\]\[\e[31m\]\v\[\e[m\]\[\e[32m\]\u\[\e[m\]\[\e[34m\]\\$\[\e[m\] "
 
 # --- History Control ---
 export HISTSIZE=500
@@ -92,6 +93,7 @@ alias reboot='sudo reboot now'  # reboot system
 # fastfetch & geany aliases
 alias ffetch='fastfetch --logo small'  # fastfetch
 alias bg='geany ~/.bashrc' # geany bashrc
+alias bpy='bpytop' # bpytop
 alias vi='vim' # vim
 
 # Alias's for archives
