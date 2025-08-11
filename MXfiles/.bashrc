@@ -1,93 +1,60 @@
-# ~/.bashrc: executed by bash(1) for non-login shells.
-# see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
-# for examples
-
+#================================================================#
+#           ██████╗  █████╗ ███████╗██╗  ██╗██████╗  ██████╗
+#           ██╔══██╗██╔══██╗██╔════╝██║  ██║██╔══██╗██╔════╝
+#           ██████╔╝███████║███████╗███████║██████╔╝██║     
+#           ██╔══██╗██╔══██║╚════██║██╔══██║██╔══██╗██║     
+#           ██████╔╝██║  ██║███████║██║  ██║██║  ██║╚██████╗
+#           ╚═════╝ ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝
+# Last modified: 8/11/2025 
+# PERSONAL $HOME/.bashrc FILE for bash-5.2 (or later)
+# My 1St bash config. Just some standard stuff.
+# This file was designed for my computers.
+# My bashrc file is a bit overcrowded - remember it is just an example. 
+# This file is normally read by interactive shells only.
 # If not running interactively, don't do anything
-[ -z "$PS1" ] && return
+# =============================================================== #
 
-# don't put duplicate lines in the history. See bash(1) for more options
-# don't overwrite GNU Midnight Commander's setting of `ignorespace'.
-HISTCONTROL=$HISTCONTROL${HISTCONTROL+:}ignoredups
-# ... or force ignoredups and ignorespace
-HISTCONTROL=ignoreboth
+[[ $- != *i* ]] && return
 
-# append to the history file, don't overwrite it
-shopt -s histappend
+### PROMPT ###
+# This is commented out if using prompt
+PS1="\[\e[31m\]\s\[\e[m\]\[\e[31m\]\V\[\e[m\]\[\e[36m\]\u\[\e[m\]\[\e[34m\]\w\[\e[m\]\[\e[37m\]\\$\[\e[m\] "
+# PS1="\[\e[31m\]\s\[\e[m\]\[\e[31m\]\v\[\e[m\]\[\e[32m\]\u\[\e[m\]\[\e[34m\]\\$\[\e[m\] "
 
-# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
+# --- History Control ---
+export HISTSIZE=500
+export HISTFILESIZE=1000
 
-# check the window size after each command and, if necessary,
-# update the values of LINES and COLUMNS.
-shopt -s checkwinsize
-
-# make less more friendly for non-text input files, see lesspipe(1)
-#[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
-
-# set variable identifying the chroot you work in (used in the prompt below)
-if [ -z "$debian_chroot" ] && [ -r /etc/debian_chroot ]; then
-    debian_chroot=$(cat /etc/debian_chroot)
-fi
-
-# set a fancy prompt (non-color, unless we know we "want" color)
-case "$TERM" in
-    xterm-color) color_prompt=yes;;
-esac
-
-# uncomment for a colored prompt, if the terminal has the capability; turned
-# off by default to not distract the user: the focus in a terminal window
-# should be on the output of commands, not on the prompt
-# force_color_prompt=yes
-
-if [ -n "$force_color_prompt" ]; then
-    if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
-	# We have color support; assume it's compliant with Ecma-48
-	# (ISO/IEC-6429). (Lack of such support is extremely rare, and such
-	# a case would tend to support setf rather than setaf.)
-	color_prompt=yes
+# Sudo last command
+s() { # do sudo, or sudo the last command if no argument given
+    if [[ $# == 0 ]]; then
+        sudo $(history -p '!!')
     else
-	color_prompt=
+        sudo "$@"
     fi
+}
+
+# Nice ls colors
+test -r ~/.dir_colors && eval $(dircolors ~/.dir_colors)
+
+# Automatic directory change
+shopt -s autocd  # Enables automatic directory change when typing a directory name
+
+#================================================================ #
+#  ALIASES AND FUNCTIONS
+#  Arguably, some functions defined here are quite big.
+#  If you want to make this file smaller, these functions can
+#  be converted into scripts and removed from here.
+# Alias definitions.
+# You may want to put all your additions into a separate file like
+# ~/.bash_aliases, instead of adding them here directly.
+# See /usr/share/doc/bash-doc/examples in the bash-doc package.
+#================================================================ #
+
+if [ -f ~/.bash_aliases ]; then
+    . ~/.bash_aliases
 fi
 
-if [ "$color_prompt" = yes ]; then
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
-else
-    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
-fi
-unset color_prompt force_color_prompt
-
-red='\[\e[0;31m\]'
-RED='\[\e[1;31m\]'
-blue='\[\e[0;34m\]'
-BLUE='\[\e[1;34m\]'
-cyan='\[\e[0;36m\]'
-CYAN='\[\e[1;36m\]'
-green='\[\e[0;32m\]'
-GREEN='\[\e[1;32m\]'
-yellow='\[\e[0;33m\]'
-YELLOW='\[\e[1;33m\]'
-PURPLE='\[\e[1;35m\]'
-purple='\[\e[0;35m\]'
-nc='\[\e[0m\]'
-
-if [ "$UID" = 0 ]; then
-    PS1="$red\u$nc@$red\H$nc:$CYAN\w$nc\\n$red#$nc "
-else
-    PS1="$PURPLE\u$nc@$CYAN\H$nc:$GREEN\w$nc\\n$GREEN\$$nc "
-fi
-# enable color support of ls and also add handy aliases
-if [ -x /usr/bin/dircolors ]; then
-    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-   #alias ls='ls --color=auto'
-    #alias dir='dir --color=auto'
-    #alias vdir='vdir --color=auto'
-
-    #alias grep='grep --color=auto'
-    #alias fgrep='fgrep --color=auto'
-    #alias egrep='egrep --color=auto'
-fi
-
-# some ls aliases
 # alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 alias dir='dir --color=auto'
@@ -95,71 +62,94 @@ alias vdir='vdir --color=auto'
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
-alias ls='lsd -F'
-alias ll='ls -Flh'  # Human-readable ls
-alias la='ls -Fla'
 
-
-# some dir aliases
-
-alias ..='cd ..' # cd home
-alias ...='cd ../..'
-alias mkdir='mkdir -pv' # make dir
-alias tree='tree --dirsfirst -F'
-
-# navigation
-alias vi='vim'
-alias h='history'
+# Show help for this .bashrc file
+alias hlp='less ~/.bashrc_help' # help bashrc
+alias h='history' # history
 alias cls='clear' # clear terminal
-alias q='exit'
+alias blk='lsblk' # lsblk
+alias bye='exit' # quit
 alias src='source ~/.bashrc' #  restart bash
 
-# some package aliases
-# installs
+# Alias's for multiple directory listing commands
+alias ls='lsd -F'  # wide format directories only
+alias ll='ls -Flh'  # Human-readable ls
+alias la='ls -Fa' # wide format hidden files
+alias tree='tree --dirsfirst -F'
+
+# Change directory aliases
+alias home='cd ~' # cd home
+alias ..='cd ..' # cd home
+alias ...='cd ../..'
+alias mkdir='mkdir -p' # make dir
+
+# some more nala & package aliases
+alias remove='sudo nala autoremove'
 alias install='sudo nala install'
-alias update='sudo nala update'
-alias upgrade='sudo nala upgrade'
-alias reboot='sudo reboot now'  # reboot system
+alias update='sudo nala update && sudo nala upgrade'
+alias reboot='sudo reboot'
 
 # fastfetch & geany aliases
 alias ffetch='fastfetch --logo small'  # fastfetch
-alias bg='geany ~/.bashrc'
+alias bg='geany ~/.bashrc' # geany bashrc
+alias bpy='bpytop' # bpytop
+alias vi='vim' # vim
 
-# tar aliases
-alias untar='tar -zxvf '
-alias tarnow='tar -acf '
+# Alias's for archives
+alias mktar='tar -cvf'
+alias mkbz2='tar -cvjf'
+alias mkgz='tar -cvzf'
+alias untar='tar -xvf'
+alias unbz2='tar -xvjf'
+alias ungz='tar -xvzf'
 
-# Alias definitions.
-# You may want to put all your additions into a separate file like
-# ~/.bash_aliases, instead of adding them here directly.
-# See /usr/share/doc/bash-doc/examples in the bash-doc package.
+# Extracts any archive(s) (if unp isn't installed)
+function extract {
+ if [ $# -eq 0 ]; then
+    # display usage if no parameters given
+    echo "Usage: extract <path/file_name>.<zip|rar|bz2|gz|tar|tbz2|tgz|Z|7z|xz|ex|tar.bz2|tar.gz|tar.xz|.zlib|.cso|.zst>"
+    echo "       extract <path/file_name_1.ext> [path/file_name_2.ext] [path/file_name_3.ext]"
+ fi
+    for n in "$@"; do
+        if [ ! -f "$n" ]; then
+            echo "'$n' - file doesn't exist"
+            return 1
+        fi
 
-if [ -f ~/.bash_aliases ]; then
-    . ~/.bash_aliases
-fi
-
-# Default parameter to send to the "less" command
-# -R: show ANSI colors correctly; -i: case insensitive search
-LESS="-R -i"
-
-# enable programmable completion features (you don't need to enable
-# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
-# sources /etc/bash.bashrc).
-if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
-    . /etc/bash_completion
-fi
-
-# Add sbin directories to PATH.  This is useful on systems that have sudo
-echo $PATH | grep -Eq "(^|:)/sbin(:|)"     || PATH=$PATH:/sbin
-echo $PATH | grep -Eq "(^|:)/usr/sbin(:|)" || PATH=$PATH:/usr/sbin
-
-# If this is an xterm set the title to user@host:dir
-case "$TERM" in
-xterm*|rxvt*)
-    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
-    ;;
-*)
-    ;;
-esac
-
-source $HOME/.config/bash-config/bashrc.bash
+        case "${n%,}" in
+          *.cbt|*.tar.bz2|*.tar.gz|*.tar.xz|*.tbz2|*.tgz|*.txz|*.tar)
+                       tar zxvf "$n"       ;;
+          *.lzma)      unlzma ./"$n"      ;;
+          *.bz2)       bunzip2 ./"$n"     ;;
+          *.cbr|*.rar) unrar x -ad ./"$n" ;;
+          *.gz)        gunzip ./"$n"      ;;
+          *.cbz|*.epub|*.zip) unzip ./"$n"   ;;
+          *.z)         uncompress ./"$n"  ;;
+          *.7z|*.apk|*.arj|*.cab|*.cb7|*.chm|*.deb|*.iso|*.lzh|*.msi|*.pkg|*.rpm|*.udf|*.wim|*.xar|*.vhd)
+                       7z x ./"$n"        ;;
+          *.xz)        unxz ./"$n"        ;;
+          *.exe)       cabextract ./"$n"  ;;
+          *.cpio)      cpio -id < ./"$n"  ;;
+          *.cba|*.ace) unace x ./"$n"     ;;
+          *.zpaq)      zpaq x ./"$n"      ;;
+          *.arc)       arc e ./"$n"       ;;
+          *.cso)       ciso 0 ./"$n" ./"$n.iso" && \
+                            extract "$n.iso" && \rm -f "$n" ;;
+          *.zlib)      zlib-flate -uncompress < ./"$n" > ./"$n.tmp" && \
+                            mv ./"$n.tmp" ./"${n%.*zlib}" && rm -f "$n"   ;;
+          *.dmg)
+                      hdiutil mount ./"$n" -mountpoint "./$n.mounted" ;;
+          *.tar.zst)  tar -I zstd -xvf ./"$n"  ;;
+          *.zst)      zstd -d ./"$n"  ;;
+          *)
+                      echo "extract: '$n' - unknown archive method"
+                      return 1
+                      ;;
+        esac
+    done
+}
+# =============================================================== #
+# Local Variables:
+# sh-shell:bash
+# End:
+# =============================================================== #
