@@ -7,11 +7,7 @@
 #           ╚═════╝ ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝
 # Last modified: 8/11/2025 
 # PERSONAL $HOME/.bashrc FILE for bash-5.2 (or later)
-# My 1St bash config. Just some standard stuff.
-# This file was designed for my computers.
-# My bashrc file is a bit overcrowded - remember it is just an example. 
-# This file is normally read by interactive shells only.
-# If not running interactively, don't do anything
+# My 1St bash config. This file was designed for my computers.
 # =============================================================== #
 
 [[ $- != *i* ]] && return
