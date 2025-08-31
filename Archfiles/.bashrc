@@ -7,11 +7,7 @@
 #           ╚═════╝ ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝
 # Last modified: 7/17/2025 
 # PERSONAL $HOME/.bashrc FILE for bash-5.3 (or later)
-# My 1St bash config. Just some standard stuff.
-# This file was designed for my computers.
-# My bashrc file is a bit overcrowded - remember it is just an example. 
-# This file is normally read by interactive shells only.
-# If not running interactively, don't do anything
+# My 1St bash config. This file was designed for my computers.
 # =============================================================== #
 
 [[ $- != *i* ]] && return
@@ -42,9 +38,6 @@ shopt -s autocd  # Enables automatic directory change when typing a directory na
 
 #================================================================ #
 #  ALIASES AND FUNCTIONS
-#  Arguably, some functions defined here are quite big.
-#  If you want to make this file smaller, these functions can
-#  be converted into scripts and removed from here.
 # Alias definitions.
 # You may want to put all your additions into a separate file like
 # ~/.bash_aliases, instead of adding them here directly.
