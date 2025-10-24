@@ -5,7 +5,7 @@
 #           ██╔══██╗██╔══██║╚════██║██╔══██║██╔══██╗██║     
 #           ██████╔╝██║  ██║███████║██║  ██║██║  ██║╚██████╗
 #           ╚═════╝ ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝
-# Last modified: 7/17/2025 
+# Last modified: 10/24/2025 
 # PERSONAL $HOME/.bashrc FILE for bash-5.3 (or later)
 # My 1St bash config. Just some standard stuff.
 # This file was designed for my computers.
@@ -19,7 +19,7 @@
 ### PROMPT ###
 # This is commented out if using prompt
 PS1="\[\e[31m\]\s\[\e[m\]\[\e[31m\]\V\[\e[m\]\[\e[36m\]\u\[\e[m\]\[\e[34m\]\w\[\e[m\]\[\e[37m\]\\$\[\e[m\] "
-# PS1="\[\e[31m\]\s\[\e[m\]\[\e[31m\]\v\[\e[m\]\[\e[32m\]\u\[\e[m\]\[\e[34m\]\\$\[\e[m\] "
+#PS1="\[\e[31m\]\s\[\e[m\]\[\e[31m\]\v\[\e[m\]\[\e[32m\]\u\[\e[m\]\[\e[34m\]\\$\[\e[m\] "
 
 # --- History Control ---
 export HISTSIZE=500
@@ -107,6 +107,9 @@ alias untar='tar -xvf'
 alias unbz2='tar -xvjf'
 alias ungz='tar -xvzf'
 
+# nice ls colors
+test -r ~/.dir_colors && eval $(dircolors ~/.dir_colors)
+
 # Extracts any archive(s) (if unp isn't installed)
 function extract {
  if [ $# -eq 0 ]; then
@@ -152,9 +155,6 @@ function extract {
         esac
     done
 }
-
-# nice ls colors
-test -r ~/.dir_colors && eval $(dircolors ~/.dir_colors)
 
 # =============================================================== #
 # Local Variables:
