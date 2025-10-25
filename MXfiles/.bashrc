@@ -5,7 +5,7 @@
 #           ██╔══██╗██╔══██║╚════██║██╔══██║██╔══██╗██║     
 #           ██████╔╝██║  ██║███████║██║  ██║██║  ██║╚██████╗
 #           ╚═════╝ ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝
-# Last modified: 8/11/2025 
+# Last modified: 10/25/2025 
 # PERSONAL $HOME/.bashrc FILE for bash-5.2 (or later)
 # My 1St bash config. This file was designed for my computers.
 # =============================================================== #
@@ -77,12 +77,14 @@ alias tree='tree --dirsfirst -F'
 alias home='cd ~' # cd home
 alias ..='cd ..' # cd home
 alias ...='cd ../..'
+alias cpv='rsync -avh --info=progress2'
 alias mkdir='mkdir -p' # make dir
 
 # some more nala & package aliases
 alias remove='sudo nala autoremove'
 alias install='sudo nala install'
 alias update='sudo nala update && sudo nala upgrade'
+alias upsudo='sudo $(history -p \!\!)'
 alias reboot='sudo reboot'
 
 # fastfetch & geany aliases
