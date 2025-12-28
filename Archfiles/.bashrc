@@ -90,6 +90,7 @@ alias remove='sudo pacman -Rn'   # remove orphaned packages
 alias install='sudo pacman -S'   # install only standard pkgs
 alias update='sudo pacman -Syu'  # update only standard pkgs
 alias unlock='sudo rm /var/lib/pacman/db.lck'  # remove pacman lock
+alias thunsu='sudo pkexec thunar' # open thunar as root
 alias upsudo='sudo $(history -p \!\!)'
 alias reboot='sudo reboot now'  # reboot system
 
