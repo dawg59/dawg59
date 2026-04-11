@@ -70,7 +70,7 @@ alias cls='clear' # clear terminal
 alias blk='lsblk' # lsblk
 alias bye='exit' # quit
 alias src='source ~/.bashrc' #  restart bash
-alias fontc='fc-cache -f -v'
+alias fontc='fc-cache -f -v' # font cache
 alias vid='glxinfo | grep "OpenGL renderer"' # video drivers
 
 # Alias's for multiple directory listing commands
