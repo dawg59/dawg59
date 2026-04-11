@@ -5,7 +5,7 @@
 #           ██╔══██╗██╔══██║╚════██║██╔══██║██╔══██╗██║     
 #           ██████╔╝██║  ██║███████║██║  ██║██║  ██║╚██████╗
 #           ╚═════╝ ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝
-# Last modified: 10/24/2025 
+# Last modified: 7/17/2025 
 # PERSONAL $HOME/.bashrc FILE for bash-5.3 (or later)
 # My 1St bash config. Just some standard stuff.
 # This file was designed for my computers.
@@ -19,7 +19,7 @@
 ### PROMPT ###
 # This is commented out if using prompt
 PS1="\[\e[31m\]\s\[\e[m\]\[\e[31m\]\V\[\e[m\]\[\e[36m\]\u\[\e[m\]\[\e[34m\]\w\[\e[m\]\[\e[37m\]\\$\[\e[m\] "
-#PS1="\[\e[31m\]\s\[\e[m\]\[\e[31m\]\v\[\e[m\]\[\e[32m\]\u\[\e[m\]\[\e[34m\]\\$\[\e[m\] "
+# PS1="\[\e[31m\]\s\[\e[m\]\[\e[31m\]\v\[\e[m\]\[\e[32m\]\u\[\e[m\]\[\e[34m\]\\$\[\e[m\] "
 
 # --- History Control ---
 export HISTSIZE=500
@@ -68,21 +68,20 @@ alias hlp='less ~/.bashrc_help' # help bashrc
 alias h='history' # history
 alias cls='clear' # clear terminal
 alias blk='lsblk' # lsblk
-alias count='ls * | wc -l'
 alias bye='exit' # quit
 alias src='source ~/.bashrc' #  restart bash
+alias fontc='fc-cache -f -v'
+alias vid='glxinfo | grep "OpenGL renderer"' # video drivers
 
 # Alias's for multiple directory listing commands
 alias ls='lsd -F'  # wide format directories only
 alias ll='ls -Flh'  # Human-readable ls
 alias la='ls -Fa' # wide format hidden files
-alias tree='tree --dirsfirst -F'
 
 # Change directory aliases
 alias home='cd ~' # cd home
 alias ..='cd ..' # cd home
 alias ...='cd ../..'
-alias cpv='rsync -avh --info=progress2'
 alias mkdir='mkdir -p' # make dir
 
 # some package aliases
@@ -90,8 +89,7 @@ alias remove='sudo pacman -Rn'   # remove orphaned packages
 alias install='sudo pacman -S'   # install only standard pkgs
 alias update='sudo pacman -Syu'  # update only standard pkgs
 alias unlock='sudo rm /var/lib/pacman/db.lck'  # remove pacman lock
-alias thunsu='sudo pkexec thunar' # open thunar as root
-alias upsudo='sudo $(history -p \!\!)'
+alias mirror='sudo cachyos-rate-mirrors'
 alias reboot='sudo reboot now'  # reboot system
 
 # fastfetch & geany aliases
@@ -107,9 +105,6 @@ alias mkgz='tar -cvzf'
 alias untar='tar -xvf'
 alias unbz2='tar -xvjf'
 alias ungz='tar -xvzf'
-
-# nice ls colors
-test -r ~/.dir_colors && eval $(dircolors ~/.dir_colors)
 
 # Extracts any archive(s) (if unp isn't installed)
 function extract {
@@ -156,7 +151,6 @@ function extract {
         esac
     done
 }
-
 # =============================================================== #
 # Local Variables:
 # sh-shell:bash
