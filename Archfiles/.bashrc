@@ -5,10 +5,10 @@
 #           ██╔══██╗██╔══██║╚════██║██╔══██║██╔══██╗██║     
 #           ██████╔╝██║  ██║███████║██║  ██║██║  ██║╚██████╗
 #           ╚═════╝ ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝
-# Last modified: 7/17/2025 
+# Last modified: 4/12/2026 
 # PERSONAL $HOME/.bashrc FILE for bash-5.3 (or later)
 # My 1St bash config. Just some standard stuff.
-# This file was designed for my computers.
+# This file was designed for my arch computers.
 # My bashrc file is a bit overcrowded - remember it is just an example. 
 # This file is normally read by interactive shells only.
 # If not running interactively, don't do anything
