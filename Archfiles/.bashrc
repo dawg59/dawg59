@@ -24,6 +24,7 @@ PS1="\[\e[31m\]\s\[\e[m\]\[\e[31m\]\V\[\e[m\]\[\e[36m\]\u\[\e[m\]\[\e[34m\]\w\[\
 # --- History Control ---
 export HISTSIZE=500
 export HISTFILESIZE=1000
+export HISTCONTROL="erasedups":"ignorespace"
 
 # Sudo last command
 s() { # do sudo, or sudo the last command if no argument given
